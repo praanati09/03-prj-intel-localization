@@ -1,13 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
+  <link id="bootstrapCss" rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intel: Sustainability Through the Ages</title>
+
+  <!-- Bootstrap CSS (script will swap to RTL version when needed) -->
+  <link
+    id="bootstrapCss"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  />
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
+
+  <!-- Your custom styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+<script>
+  const RTL_LANGS = new Set(["ar", "he", "fa", "ur"]);
+  const bootstrapCss = document.getElementById("bootstrapCss");
+
+  function applyDirection() {
+    const langAttr = (document.documentElement.lang || "").toLowerCase();
+    const lang = langAttr.split("-")[0];
+    const isRtl = RTL_LANGS.has(lang);
+
+    document.documentElement.dir = isRtl ? "rtl" : "ltr";
+    bootstrapCss.href = isRtl
+      ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+      : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+  }
+
+  applyDirection();
+
+  new MutationObserver(applyDirection)
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+</script>
+
+  <!-- Skip link (accessibility) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- HERO -->
   <header class="hero">
@@ -29,8 +69,9 @@
   </header>
 
   <!-- MAIN -->
-  <main class="page">
+  <main id="main" class="page">
 
+    <!-- Timeline stays EXACTLY the same -->
     <section class="timeline" id="timeline" aria-label="Intel sustainability timeline">
       <h2 class="timeline__heading">Timeline</h2>
       <p class="timeline__hint">Scroll to view timeline | Hover over cards to learn more!</p>
@@ -108,7 +149,6 @@
           </div>
         </article>
 
-        <!-- Reuse images for now (until you add more) -->
         <!-- 2006 -->
         <article class="card">
           <div class="card__header">
@@ -203,13 +243,173 @@
       </div>
     </section>
 
-    <footer class="footer">
-      <p>Built with HTML, CSS, Flexbox, hover effects, and responsive design.</p>
+    <!-- ✅ NEW: Bootstrap 3-column layout + icons + Learn More styling -->
+    <section class="container my-5" aria-labelledby="focusTitle">
+      <h2 id="focusTitle" class="text-center fw-bold mb-4">Sustainability Focus</h2>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <div class="feature-card h-100">
+            <div class="feature-head">
+              <i class="bi bi-bar-chart feature-icon" aria-hidden="true"></i>
+              <h3 class="h5 mb-0">RISE Strategy</h3>
+            </div>
+            <p class="text-muted">
+              Under its RISE strategy, Intel sets ambitious 2030 goals, including driving
+              progress on climate action, water stewardship, and waste reduction.
+            </p>
+            <a class="learn-more" href="#" aria-label="Learn more about RISE Strategy">Learn More</a>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="feature-card h-100">
+            <div class="feature-head">
+              <i class="bi bi-globe2 feature-icon" aria-hidden="true"></i>
+              <h3 class="h5 mb-0">Commitment</h3>
+            </div>
+            <p class="text-muted">
+              In 2022, Intel pledged to achieve net-zero greenhouse gas emissions (Scope 1 and 2) by 2040,
+              building on decades of environmental initiatives and partnerships.
+            </p>
+            <a class="learn-more" href="#" aria-label="Learn more about Intel commitment">Learn More</a>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="feature-card h-100">
+            <div class="feature-head">
+              <i class="bi bi-droplet feature-icon" aria-hidden="true"></i>
+              <h3 class="h5 mb-0">Water &amp; Waste</h3>
+            </div>
+            <p class="text-muted">
+              Intel conserves billions of gallons of water annually and supports watershed restoration.
+              Intel also upcycles and recycles to reduce waste and advance a circular economy.
+            </p>
+            <a class="learn-more" href="#" aria-label="Learn more about Water & Waste">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ Interactivity (Bootstrap Accordion) -->
+    <section class="container my-5" aria-labelledby="faqTitle">
+      <h2 id="faqTitle" class="text-center fw-bold mb-4">More About the Goals</h2>
+
+      <div class="accordion" id="intelAccordion">
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              What does RISE stand for?
+            </button>
+          </h3>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#intelAccordion">
+            <div class="accordion-body">
+              RISE stands for Responsible, Inclusive, Sustainable, and Enabling—Intel’s framework for long-term impact.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Why is renewable electricity important?
+            </button>
+          </h3>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#intelAccordion">
+            <div class="accordion-body">
+              Renewable electricity reduces operational emissions and supports long-term carbon reduction goals.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              What’s next for this website?
+            </button>
+          </h3>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#intelAccordion">
+            <div class="accordion-body">
+              Next improvements could include translated content, stronger navigation, and more milestone images with captions.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ Newsletter form (accessible) -->
+    <section class="container my-5" aria-labelledby="newsletterTitle">
+      <div class="subscribe-wrap">
+        <h2 id="newsletterTitle" class="text-center fw-bold mb-2">Subscribe to our Newsletter</h2>
+        <p class="text-center text-muted mb-4">Get Intel sustainability updates right in your inbox.</p>
+
+        <form class="row g-2 justify-content-center" action="#" method="post" aria-describedby="privacyNote">
+          <div class="col-12 col-md-6">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              class="form-control"
+              placeholder="name@example.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="col-12 col-md-auto d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+          </div>
+
+          <p id="privacyNote" class="text-muted small text-center mt-2 mb-0">
+            We’ll never share your email. Unsubscribe anytime.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="py-4 mt-4 border-top">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <p class="mb-0 text-muted small">© 2026 Intel (Student Project)</p>
+
+        <nav aria-label="Footer links" class="d-flex gap-3">
+          <a class="footer-link" href="#">Privacy Policy</a>
+          <a class="footer-link" href="#">Terms of Use</a>
+          <a class="footer-link" href="#">Contact</a>
+        </nav>
+      </div>
     </footer>
 
   </main>
 
+  <!-- ✅ Bootstrap JS (only once) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ✅ Extra credit: Auto-detect language & apply RTL when lang changes -->
+  <script>
+    const RTL_LANGS = new Set(["ar", "he", "fa", "ur"]);
+    const bootstrapCss = document.getElementById("bootstrapCss");
+
+    function applyDirection(dir) {
+      document.documentElement.dir = dir;
+      bootstrapCss.href =
+        dir === "rtl"
+          ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+          : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+    }
+
+    function detectAndApplyRTL() {
+      const langAttr = (document.documentElement.lang || "").toLowerCase();
+      const lang = langAttr.split("-")[0];
+      applyDirection(RTL_LANGS.has(lang) ? "rtl" : "ltr");
+    }
+
+    detectAndApplyRTL();
+    new MutationObserver(detectAndApplyRTL)
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["lang", "dir"] });
+  </script>
+
 </body>
 </html>
-
-
