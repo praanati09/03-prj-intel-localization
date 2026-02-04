@@ -1,0 +1,244 @@
+/* ========== Base ========== */
+* { box-sizing: border-box; }
+
+:root{
+  --intel-blue-900:#0a4d8c;
+  --intel-blue-800:#0b61a8;
+  --intel-blue-700:#0d74c7;
+
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#0b1220;
+  --muted: rgba(11,18,32,.65);
+
+  --radius: 14px;
+  --shadow: 0 12px 28px rgba(0,0,0,.14);
+}
+
+html, body{
+  margin:0;
+  padding:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ========== Hero ========== */
+.hero{
+  min-height: 56vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 60px 18px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--intel-blue-900), var(--intel-blue-700));
+}
+
+.hero__inner{
+  width: min(980px, 100%);
+  text-align:center;
+}
+
+.hero__logo{
+  width: 120px;
+  max-width: 42vw;
+  margin-bottom: 16px;
+}
+
+.hero__title{
+  margin:0;
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: 1.03;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hero__line{
+  width: 96px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.75);
+  margin: 18px auto;
+}
+
+.hero__subtitle{
+  margin: 0 auto;
+  width: min(760px, 92%);
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: 1.6;
+  opacity: .92;
+}
+
+.hero__cta{
+  display:inline-block;
+  margin-top: 22px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  text-decoration:none;
+  color:#fff;
+  font-weight: 700;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(6px);
+  transition: transform .15s ease, background .15s ease;
+}
+.hero__cta:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.22);
+}
+
+/* ========== Page ========== */
+.page{
+  padding: 30px 18px 60px;
+}
+
+/* ========== Timeline ========== */
+.timeline{
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.timeline__heading{
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: .5px;
+}
+
+.timeline__hint{
+  margin: 8px 0 18px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Horizontal scroll track */
+.timeline__track{
+  display:flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 12px 10px 18px;
+  scroll-snap-type: x mandatory; /* extra credit */
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+}
+
+.timeline__track:focus{
+  box-shadow: 0 0 0 4px rgba(13,116,199,.18);
+  border-radius: var(--radius);
+}
+
+/* Optional nicer scrollbar */
+.timeline__track::-webkit-scrollbar{ height: 10px; }
+.timeline__track::-webkit-scrollbar-track{
+  background: rgba(11,18,32,.07);
+  border-radius: 999px;
+}
+.timeline__track::-webkit-scrollbar-thumb{
+  background: rgba(11,18,32,.22);
+  border-radius: 999px;
+}
+
+/* ========== Cards ========== */
+.card{
+  position: relative;
+  flex: 0 0 260px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  scroll-snap-align: start;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card__header{
+  padding: 18px 18px 10px;
+}
+
+.card__year{
+  margin:0;
+  font-size: 34px;
+  font-weight: 900;
+  color: #0c2f5a;
+}
+
+.card__title{
+  margin: 6px 0 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.card__img{
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display:block;
+  background: #e8eef7;
+}
+
+/* overlay reveal */
+.card__overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:flex-end;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(10,77,140,.08), rgba(10,77,140,.92));
+  color:#fff;
+  opacity:0;
+  transition: opacity .18s ease;
+}
+
+.card__overlay p{
+  margin:0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* hover effects */
+.card:hover{
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 36px rgba(0,0,0,.18);
+}
+.card:hover .card__overlay{
+  opacity:1;
+}
+
+/* ========== Footer ========== */
+.footer{
+  width: min(1120px, 100%);
+  margin: 26px auto 0;
+  text-align:center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ========== Mobile: stack vertically ========== */
+@media (max-width: 640px){
+  .timeline__track{
+    flex-direction: column;
+    overflow-x: visible;
+    padding: 0;
+    scroll-snap-type: none;
+  }
+
+  .card{
+    flex: 1 1 auto;
+  }
+
+  /* on mobile, show details instead of hover */
+  .card__overlay{
+    position: static;
+    opacity: 1;
+    background: none;
+    color: var(--text);
+    padding: 0 18px 18px;
+  }
+
+  .card__overlay p{
+    color: var(--muted);
+  }
+
+  .card:hover{
+    transform: none;
+    box-shadow: var(--shadow);
+  }
+}
