@@ -23,6 +23,72 @@
 </head>
 
 <body>
+  
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const RTL_LANGS = ["ar", "he", "fa", "ur"];
+  const bootstrapCss = document.getElementById("bootstrapCss");
+  if (!bootstrapCss) return;
+
+  let currentDir = "ltr";
+
+  function containsArabicText() {
+    return /[\u0600-\u06FF]/.test(document.body.innerText);
+  }
+
+  function detectRTL() {
+    // 1️⃣ Check html lang
+    const langAttr = (document.documentElement.lang || "").toLowerCase();
+    const lang = langAttr.split("-")[0];
+    if (RTL_LANGS.includes(lang)) return true;
+
+    // 2️⃣ Check computed direction
+    const bodyDir = getComputedStyle(document.body).direction;
+    if (bodyDir === "rtl") return true;
+
+    // 3️⃣ FINAL fallback: check Arabic characters (Google Translate)
+    if (containsArabicText()) return true;
+
+    return false;
+  }
+
+  function applyDirection() {
+    const shouldBeRTL = detectRTL();
+    const newDir = shouldBeRTL ? "rtl" : "ltr";
+
+    if (newDir === currentDir) return; // prevent loops
+    currentDir = newDir;
+
+    document.documentElement.dir = newDir;
+
+    bootstrapCss.href =
+      newDir === "rtl"
+        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+  }
+
+  // Initial run
+  applyDirection();
+
+  // Watch for Google Translate DOM mutations
+  const observer = new MutationObserver(() => {
+    requestAnimationFrame(applyDirection);
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["lang", "dir"]
+  });
+});
+</script>
+
+  
   <!-- Skip link (accessibility) -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
@@ -362,29 +428,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-  const RTL_LANGS = new Set(["ar", "he", "fa", "ur"]);
-  const bootstrapCss = document.getElementById("bootstrapCss");
-
-  function applyDirection(dir) {
-    document.documentElement.dir = dir;
-    bootstrapCss.href =
-      dir === "rtl"
-        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
-        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
-  }
-
-  function detectAndApplyRTL() {
-    const langAttr = (document.documentElement.lang || "").toLowerCase();
-    const lang = langAttr.split("-")[0];
-    applyDirection(RTL_LANGS.has(lang) ? "rtl" : "ltr");
-  }
-
-  detectAndApplyRTL();
-  new MutationObserver(detectAndApplyRTL)
-    .observe(document.documentElement, { attributes: true, attributeFilter: ["lang", "dir"] });
-</script>
 
 </body>
 </html>
